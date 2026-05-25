@@ -3,6 +3,9 @@
 > This document explains **exactly** what happens at every layer of TicketWise, tracing real data through real code paths. Read this before your interview.
 
 ---
+## Complete Architecture Diagram
+
+![TicketWise Architecture](../../ticketwise_architecture.png)
 
 ## Table of Contents
 
