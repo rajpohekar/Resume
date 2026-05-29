@@ -289,37 +289,118 @@ Straightforward multiplication; the trick is remembering to count the human(s) i
 # Puzzle #8
 
 ## Category
-Most Asked Interview Puzzles
+
+Arrangement Puzzle
 
 ## Question
-There are 6 houses in a row, each a different color, each occupied by a person of different nationality, each drinking a different beverage, smoking a different brand, and owning a different pet. Using a set of clues (Einstein's Riddle), determine who owns the fish.
+
+There are three houses on each side of a road. The six houses are labeled **P, Q, R, S, T, and U**. Each house has a different color (**Red, Blue, Green, Orange, Yellow, White**) and a different height.
+
+Given:
+
+1. T, the tallest house, is exactly opposite to the Red-colored house.
+2. The shortest house is exactly opposite to the Green-colored house.
+3. U, the Orange-colored house, is located between P and S.
+4. R, the Yellow-colored house, is exactly opposite to P.
+5. Q, the Green-colored house, is exactly opposite to U.
+6. P, the White-colored house, is taller than R but shorter than S and Q.
+
+**What is the color of the tallest house, and how many houses are taller than house R?**
+
+---
 
 ## Trick
-* Build a grid: house# vs. color, nationality, drink, smoke, pet.
-* Apply clues sequentially to eliminate possibilities.
-* Start from the most constrained clues (e.g., the Norwegian lives in house 1).
+
+* First place houses using the "opposite" clues.
+* Use "U is between P and S" to determine the road arrangement.
+* Assign colors from the given clues.
+* Use height constraints to rank the houses.
+* Eliminate possibilities until only one valid arrangement remains.
+
+---
 
 ## Visual
+
+```text
+Side 1:  P   U   S
+          |   |   |
+Side 2:  R   Q   T
+
+Opposites:
+P ↔ R
+U ↔ Q
+S ↔ T
 ```
-House:  1      2      3      4      5
-Color:  Yellow Blue   Red    Green  White
-Nation: Norweg Danish British German Swedish
-Drink:  Water  Tea    Milk   Coffee Beer
-Smoke:  Dunhill Blend Prince Blend Bluemaster
-Pet:    Cats   Horse  Birds  Fish   Dog
+
+### Colors
+
+```text
+P = White
+Q = Green
+R = Yellow
+U = Orange
+S = Red
+T = Blue
 ```
+
+### Heights
+
+```text
+Tallest     : T (Blue)
+2nd/3rd     : Q, S
+4th         : P
+5th         : R
+Shortest    : U
+```
+
+---
 
 ## Answer
-✅ Answer: The **German** owns the fish (in the classic 5-house version).
+
+✅ **The tallest house is T and its color is Blue.**
+
+✅ **Four houses are taller than R.**
+
+```text
+T, Q, S, and P
+```
+
+---
 
 ## Why It Works
-Logical constraint propagation — each clue narrows possibilities until only one assignment satisfies all constraints simultaneously.
+
+* U is Orange and lies between P and S.
+* Q is opposite U and is Green.
+* The shortest house is opposite the Green house, so U is the shortest.
+* T is the tallest and opposite the Red house, so S must be Red.
+* The only remaining color for T is Blue.
+* From the height condition:
+
+```text
+Q > P > R
+S > P > R
+T > everyone
+```
+
+Thus the order becomes:
+
+```text
+T > Q/S > P > R > U
+```
+
+Therefore, four houses are taller than R.
+
+---
 
 ## Pattern
-"Constraint elimination / logic grid"
+
+**Arrangement + Opposite Positioning + Ranking**
+
+---
 
 ## Memory Anchor
-🧠 Build a grid; eliminate by clues.
+
+🧠 **Place opposites first → Assign colors → Rank heights.**
 
 ---
 
