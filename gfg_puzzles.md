@@ -47,32 +47,60 @@ Rope 1 (lit both ends) = 30 min. Remaining Rope 2 = 30 min of burn time; lightin
 Most Asked Interview Puzzles
 
 ## Question
-There are 25 horses. You can race 5 horses at a time and see their relative order (no stopwatch). What is the minimum number of races needed to find the top 3 fastest horses?
+There are 25 horses. You can race 5 horses at a time and only know their relative order (no stopwatch). Find the minimum number of races needed to determine the top 3 fastest horses.
 
 ## Trick
-* Race all 25 in 5 groups of 5 (5 races). Note rank within each group.
-* Race the 5 group winners (1 race = Race 6). Eliminate bottom 2 groups.
-* Only 6 candidates remain for top 3; race 5 of them smartly (Race 7).
+1. Race the 25 horses in 5 groups of 5 (5 races).
+2. Race the 5 group winners (Race 6).
+3. Suppose the winners race result is:
+
+   A1 > B1 > C1 > D1 > E1
+
+4. Eliminate:
+   - All horses from Groups D and E.
+   - C2, C3, C4, C5
+   - B3, B4, B5
+   - A4, A5
+
+5. Remaining candidates:
+
+   A1, A2, A3, B1, B2, C1
+
+6. A1 is already the fastest horse.
+7. Race A2, A3, B1, B2, C1 (Race 7).
+8. The top 2 finishers of this race are overall 2nd and 3rd.
 
 ## Visual
-```
-Round 1: [G1] [G2] [G3] [G4] [G5]   — 5 races
-Round 2: [W1] [W2] [W3] [W4] [W5]   — 1 race (championship)
-         W1=1st place confirmed
-Round 3: W2, W3, 2nd/3rd of G1, 2nd of G2 — 1 race
+
+```text
+Race 1-5:
+A1 A2 A3 A4 A5
+B1 B2 B3 B4 B5
+C1 C2 C3 C4 C5
+D1 D2 D3 D4 D5
+E1 E2 E3 E4 E5
+
+Race 6:
+A1 > B1 > C1 > D1 > E1
+
+Remaining:
+A1 A2 A3 B1 B2 C1
+
+Race 7:
+A2 A3 B1 B2 C1
 ```
 
 ## Answer
-✅ Answer: 7 races minimum.
+✅ 7 races minimum.
 
 ## Why It Works
-5 group races identify group winners. 1 champion race ranks the winners. 1 final race among only viable top-3 candidates (the overall winner is already known). Total = 7.
+After Race 6, only A2, A3, B1, B2, and C1 can still be in the overall Top 3. One final race among them determines 2nd and 3rd place.
 
 ## Pattern
-"Group elimination + championship race"
+Group Elimination + Championship Race
 
 ## Memory Anchor
-🧠 5 groups + 1 final + 1 decider = 7.
+🧠 5 Group Races + 1 Winners Race + 1 Final Race = 7
 
 ---
 
