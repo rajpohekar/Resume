@@ -1655,36 +1655,180 @@ Knight moves on a 3×3 board trace a Hamiltonian cycle through the 8 non-center 
 🧠 Rotate all knights in the same circular direction.
 
 ---
-
-# Puzzle #43
+# Puzzle #42
 
 ## Category
 Analytical / Mathematical Puzzles
 
 ## Question
-100 cows give 100 litres of milk in 100 days. How many litres do 10 cows give in 10 days?
+
+A milkman has 100 cows numbered from 1 to 100.
+
+The i-th cow gives exactly i litres of milk.
+
+Thus:
+
+```text
+Cow 1  → 1 litre
+Cow 2  → 2 litres
+Cow 3  → 3 litres
+...
+Cow 100 → 100 litres
+```
+
+The milkman has 10 sons and wants to divide all 100 cows among them so that each son receives exactly the same amount of milk.
+
+How should the cows be divided?
+
+---
 
 ## Trick
-* Rate per cow per day = 100 / (100 × 100) = 0.01 litres.
-* 10 cows × 10 days × 0.01 = 1 litre.
+
+First calculate the total milk:
+
+```text
+1 + 2 + 3 + ... + 100
+= 100 × 101 / 2
+= 5050 litres
+```
+
+Since there are 10 sons:
+
+```text
+5050 / 10 = 505 litres
+```
+
+Each son must receive cows whose numbers sum to 505.
+
+Notice:
+
+```text
+1 + 100 = 101
+2 + 99  = 101
+3 + 98  = 101
+...
+50 + 51 = 101
+```
+
+Every small number pairs with a large number to make 101.
+
+Each son can therefore receive 5 such pairs:
+
+```text
+5 × 101 = 505
+```
+
+---
 
 ## Visual
+
+```text
+Pair Sum Pattern
+
+1 + 100 = 101
+2 + 99  = 101
+3 + 98  = 101
+...
+50 + 51 = 101
 ```
-1 cow in 1 day = 100/(100×100) = 0.01 L
-10 cows × 10 days × 0.01 = 1L
+
+Each son gets 5 pairs:
+
+```text
+Son 1:
+(1,100) (2,99) (3,98) (4,97) (5,96)
+
+Sum = 5 × 101 = 505
 ```
+
+---
+
+## Example Distribution
+
+```text
+Son 1:
+1, 2, 3, 4, 5, 96, 97, 98, 99, 100
+
+Son 2:
+6, 7, 8, 9, 10, 91, 92, 93, 94, 95
+
+Son 3:
+11, 12, 13, 14, 15, 86, 87, 88, 89, 90
+
+...
+
+Son 10:
+46, 47, 48, 49, 50, 51, 52, 53, 54, 55
+```
+
+Each son's cows produce:
+
+```text
+505 litres
+```
+
+---
 
 ## Answer
-✅ Answer: **1 litre**.
+
+✅ Total milk = 5050 litres
+
+✅ Each son must receive 505 litres
+
+✅ Pair numbers that sum to 101 and give 5 pairs to each son.
+
+---
 
 ## Why It Works
-Simple unitary method: scale down proportionally in both cows and days.
+
+Numbers from 1 to 100 can be paired as:
+
+```text
+1+100
+2+99
+3+98
+...
+50+51
+```
+
+Every pair sums to:
+
+```text
+101
+```
+
+Giving 5 such pairs to each son guarantees:
+
+```text
+5 × 101 = 505 litres
+```
+
+for every son.
+
+---
 
 ## Pattern
-"Unitary method"
+
+```text
+Pair smallest with largest.
+```
+
+```text
+1 + 100
+2 + 99
+3 + 98
+...
+```
+
+Each pair has the same sum.
+
+---
 
 ## Memory Anchor
-🧠 Scale cows and days proportionally.
+
+🧠 Smallest + Largest = Constant.
+
+Pair numbers to make 101, then give 5 pairs to each son.
 
 ---
 
