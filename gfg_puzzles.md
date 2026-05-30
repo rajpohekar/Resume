@@ -1340,37 +1340,127 @@ The nth cut can cross at most n−1 previous cuts, creating n new regions.
 Analytical / Mathematical Puzzles
 
 ## Question
-A chain has 23 links. You want to pay a hotel for 23 days (1 link per day). What is the minimum number of links you must cut to be able to pay exactly any number of days 1–23?
+
+A chain has 23 links. You want to pay a hotel for 23 days, paying exactly 1 link per day.
+
+The hotel owner can give change using chain pieces already received.
+
+What is the minimum number of links that must be cut so that any payment from 1 to 23 links can be made?
+
+---
 
 ## Trick
-* Cutting 1 link gives you pieces of size 1, and the two remaining segments.
-* Cut link 3: pieces = 1, 2, 3 → you can make 1,2,3,4,5,6 (1+2+3=6). Not enough.
-* Cut link 4: 1+3+19 = covers 1–23? Check: 1,3,19 → can make 1,2(1+?),3,4(3+1)... need 2 somewhere.
-* Optimal: cut 1 link → segments of 1, (n-2) works for 1-step coverage.
+
+Think in binary.
+
+To make every value from 1 to 23, the chain should be divided into pieces:
+
+```text
+1, 2, 4, 8, 8
+```
+
+Using these pieces, every number from 1 to 23 can be formed.
+
+Examples:
+
+```text
+1 = 1
+
+2 = 2
+
+3 = 1 + 2
+
+7 = 1 + 2 + 4
+
+15 = 1 + 2 + 4 + 8
+
+23 = 1 + 2 + 4 + 8 + 8
+```
+
+---
 
 ## Visual
+
+```text
+23-link chain
+
+Split into:
+
+1 | 2 | 4 | 8 | 8
 ```
-Best cut: link at position 3
-Segments: 1, 2, 20 → covers? 
-1,2,3,4,5,6... up to 23 if pieces = 1,3,19
-Pieces 1,3,19: 1,2(no!), → cut pos 4: 1,3,18 → still need 2
-Try: cut link at position 4 → pieces 1,3,18 → no
-Cut 2 links: positions 4 and 11 → pieces 1,3,7,11 → covers 1-22? 
-Actually for 23 days, cut 1 link (at position 4): 1,3,19 → 
-1,2(3-1),3,4(3+1),5(3+1+1?)... 
+
+Cuts required:
+
+```text
+After 1 link
+After 3 links
+After 7 links
+After 15 links
 ```
+
+Total cuts:
+
+```text
+4
+```
+
+---
 
 ## Answer
-✅ Answer: Cut **1 link** (at position 4 or optimally): creates pieces 1, 3, 19 which together can make any value 1–23 using combinations.
+
+✅ Answer: **4 cuts**
+
+Create chain pieces:
+
+```text
+1, 2, 4, 8, 8
+```
+
+---
 
 ## Why It Works
-Pieces 1+3+19=23. Using {1,3,19}: any value 1–4 from 1&3, 5–22 by adding 19, and 23 = all three.
+
+To cover every value continuously:
+
+```text
+Coverage 1
+→ add 2 → cover 1–3
+
+Coverage 1–3
+→ add 4 → cover 1–7
+
+Coverage 1–7
+→ add 8 → cover 1–15
+
+Coverage 1–15
+→ add 8 → cover 1–23
+```
+
+This is the same principle as binary representation.
+
+---
 
 ## Pattern
-"Piece coverage using powers-of-2-like splits"
+
+```text
+1, 2, 4, 8, ...
+```
+
+Use powers of 2 and put the remainder in the last piece.
+
+---
 
 ## Memory Anchor
-🧠 Cut fewest links; pieces must sum to cover 1–N.
+
+🧠 To form every amount from 1 to N, split into powers of 2.
+
+For 23:
+
+```text
+1, 2, 4, 8, 8
+```
+
+Minimum cuts = 4.
 
 ---
 
@@ -1459,6 +1549,238 @@ Binary representation: any integer 1–511 is a subset sum of {1,2,4,...,256}. A
 
 ---
 
+# Puzzle #39
+
+## Category
+Analytical / Mathematical Puzzles
+
+## Question
+
+There are apple trees in four directions:
+
+- North (N) trees contain **no red apples**.
+- South (S) trees contain **no green apples**.
+- West (W) trees contain **some red apples**.
+- East (E) trees contain **some green apples**.
+
+Each tree contains exactly **K apples**.
+
+You cannot distinguish red and green apples before picking them.
+
+Find the minimum number of apples that must be collected to guarantee **M red apples**.
+
+If it is impossible, print **-1**.
+
+---
+
+## Example
+
+```text
+M = 10
+K = 15
+N = 0
+S = 1
+W = 0
+E = 0
+```
+
+South trees contain only red apples.
+
+Therefore:
+
+```text
+Need 10 red apples
+→ Pick 10 apples from South
+```
+
+Answer:
+
+```text
+10
+```
+
+---
+
+## Trick
+
+### South Trees
+
+Every apple is guaranteed red.
+
+Guaranteed red apples:
+
+```text
+S × K
+```
+
+---
+
+### West / East Trees
+
+In the worst case, a tree may contain only:
+
+```text
+1 red apple
+```
+
+and the remaining apples may be green.
+
+To guarantee that one red apple, you may need to pick all:
+
+```text
+K apples
+```
+
+from that tree.
+
+---
+
+## Cases
+
+### Case 1
+
+If:
+
+```text
+M ≤ S × K
+```
+
+Then South trees alone are sufficient.
+
+Answer:
+
+```text
+M
+```
+
+---
+
+### Case 2
+
+If:
+
+```text
+M ≤ S × K + E + W
+```
+
+Let:
+
+```text
+Remaining = M - S × K
+```
+
+Each additional guaranteed red may require collecting:
+
+```text
+K apples
+```
+
+Therefore:
+
+```text
+Answer
+=
+S × K + Remaining × K
+```
+
+---
+
+### Case 3
+
+If:
+
+```text
+M > S × K + E + W
+```
+
+Even the worst-case guaranteed reds are insufficient.
+
+Answer:
+
+```text
+-1
+```
+
+---
+
+## Visual
+
+```text
+South Tree:
+[R R R R R R R R R R]
+Guaranteed 10 red
+
+West Tree:
+[G G G G G G G G G R]
+Only 1 guaranteed red
+```
+
+---
+
+## Answer
+
+✅ If:
+
+```text
+M ≤ S×K
+```
+
+Answer:
+
+```text
+M
+```
+
+✅ Else if:
+
+```text
+M ≤ S×K + E + W
+```
+
+Answer:
+
+```text
+S×K + (M − S×K) × K
+```
+
+✅ Else:
+
+```text
+-1
+```
+
+---
+
+## Why It Works
+
+For guaranteed results, always assume the worst possible arrangement.
+
+A tree that contains "some red apples" may contain only:
+
+```text
+1 red apple
+```
+
+Therefore, to guarantee that red apple, all K apples may need to be collected.
+
+---
+
+## Pattern
+
+```text
+Worst-case guarantee
+```
+
+Treat uncertain trees as contributing only one guaranteed red apple.
+
+---
+
+## Memory Anchor
+
+🧠 When a puzzle says "guarantee", think worst case.
+
+Assume every uncertain tree contains exactly one useful apple.
+---
 # Puzzle #40
 
 ## Category
@@ -1655,7 +1977,7 @@ Knight moves on a 3×3 board trace a Hamiltonian cycle through the 8 non-center 
 🧠 Rotate all knights in the same circular direction.
 
 ---
-# Puzzle #42
+# Puzzle #43
 
 ## Category
 Analytical / Mathematical Puzzles
@@ -2385,22 +2707,150 @@ Backward induction: bribe the pirates who would get nothing in the next-round sc
 # Puzzle #61
 
 ## Category
-Logical Puzzles
+Analytical / Mathematical Puzzles
 
 ## Question
-A chain has 23 links. What is the minimum number of links to cut so you can pay 1 link per day for up to 23 days?
 
-*(Same as Puzzle #36.)*
+A chain has 23 links. You want to pay a hotel for 23 days, paying exactly 1 link per day.
+
+The hotel owner can give change using chain pieces already received.
+
+What is the minimum number of links that must be cut so that any payment from 1 to 23 links can be made?
+
+---
+
+## Trick
+
+Think in binary.
+
+To make every value from 1 to 23, the chain should be divided into pieces:
+
+```text
+1, 2, 4, 8, 8
+```
+
+Using these pieces, every number from 1 to 23 can be formed.
+
+Examples:
+
+```text
+1 = 1
+
+2 = 2
+
+3 = 1 + 2
+
+7 = 1 + 2 + 4
+
+15 = 1 + 2 + 4 + 8
+
+23 = 1 + 2 + 4 + 8 + 8
+```
+
+---
+
+## Visual
+
+```text
+23-link chain
+
+Split into:
+
+1 | 2 | 4 | 8 | 8
+```
+
+Cuts required at:
+
+```text
+After 1 link
+After 3 links
+After 7 links
+After 15 links
+```
+
+```text
+[1] | [2] | [4] | [8] | [8]
+```
+
+Total cuts:
+
+```text
+4
+```
+
+---
 
 ## Answer
-✅ Answer: Cut **1 link** (at position 4), creating pieces of 1, 3, and 19 that combine to cover any value 1–23.
+
+✅ Answer: **4 cuts**
+
+Create chain pieces:
+
+```text
+1, 2, 4, 8, 8
+```
+
+---
+
+## Why It Works
+
+Suppose you can make every value from:
+
+```text
+1 to X
+```
+
+Then the next piece should be:
+
+```text
+X + 1
+```
+
+to extend coverage without gaps.
+
+Coverage progression:
+
+```text
+1
+
+1–3  (1 + 2)
+
+1–7  (1 + 2 + 4)
+
+1–15 (1 + 2 + 4 + 8)
+
+1–23 (1 + 2 + 4 + 8 + 8)
+```
+
+Thus every amount from 1 to 23 can be paid exactly.
+
+---
 
 ## Pattern
-"Power-of-2-like splits"
+
+```text
+Binary Representation
+```
+
+Use powers of 2 and place the remaining links in the last piece.
+
+---
 
 ## Memory Anchor
-🧠 One cut; pieces 1+3+19=23, cover all values.
 
+🧠 To make every amount from 1 to N, split into powers of 2.
+
+For 23:
+
+```text
+1, 2, 4, 8, 8
+```
+
+Minimum cuts:
+
+```text
+4
+```
 ---
 
 # Puzzle #62
@@ -2942,22 +3392,109 @@ You have a circle of N lights, all off. Each step you toggle a light and its two
 Logical Puzzles
 
 ## Question
-9 students, each wearing a red or black hat (at least one of each color). They can see others' hats but not their own. Simultaneously, each writes their guess. At least one must be correct. How?
+
+Nine students are each wearing either a red hat or a black hat.
+
+Each student can see everyone else's hat but cannot see their own.
+
+All students must simultaneously write down a guess for the color of their own hat.
+
+Beforehand, they are allowed to agree on a strategy.
+
+Can they guarantee that at least one student guesses correctly?
+
+---
 
 ## Trick
-* Assign students 0–8. Each student counts red hats they see.
-* Student k guesses red if (count seen + k) ≡ 0 (mod 2); else guesses black. Wait — classic version uses a parity strategy.
-* Standard strategy: use "balanced parity rows." Each student assumes they are the one making the total match a target, cycling through all residues.
+
+Assign each student a number from:
+
+```text
+0, 1, 2, 3, 4, 5, 6, 7, 8
+```
+
+Each student counts the number of red hats they see.
+
+Suppose student k sees R red hats.
+
+Student k guesses:
+
+```text
+Red  if R ≡ k (mod 9)
+Black otherwise
+```
+
+Since the actual total number of red hats must have exactly one remainder when divided by 9, one student's assumption will match reality.
+
+That student will guess correctly.
+
+---
+
+## Visual
+
+Suppose the total number of red hats is:
+
+```text
+14
+```
+
+Then:
+
+```text
+14 mod 9 = 5
+```
+
+Student #5 is the one whose assumption matches the actual situation.
+
+Therefore Student #5's guess must be correct.
+
+Other students may be right or wrong, but at least one student is guaranteed to be correct.
+
+---
 
 ## Answer
-✅ Answer: Use a **combinatorial strategy** where each student assumes a different total parity class. At least one assumption matches reality → at least one correct guess guaranteed.
+
+✅ Answer: Yes.
+
+Number the students from 0 to 8 and use a modulo-9 strategy.
+
+Exactly one student's assumption will match the actual number of red hats modulo 9, guaranteeing at least one correct guess.
+
+---
+
+## Why It Works
+
+The total number of red hats has a unique remainder:
+
+```text
+0,1,2,3,4,5,6,7,8
+```
+
+when divided by 9.
+
+Each student is assigned responsibility for one remainder.
+
+Since one of those remainders must be correct, at least one student's deduction matches reality.
+
+Therefore at least one student is guaranteed to guess correctly.
+
+---
 
 ## Pattern
-"Covering all residue classes"
+
+```text
+Modular Arithmetic
+```
+
+Use residues modulo N to guarantee that at least one participant has the correct assumption.
+
+---
 
 ## Memory Anchor
-🧠 Divide students into parity roles; one must be right.
 
+🧠 Assign one remainder class to each student.
+
+Since the true number of red hats has exactly one remainder mod 9, at least one student must be correct.
 ---
 
 # Puzzle #83
@@ -2966,19 +3503,111 @@ Logical Puzzles
 Logical Puzzles
 
 ## Question
-A room has N light bulbs, all off. You want all ON. You can only press a button that toggles all bulbs. How many presses?
 
-*(Too simple as stated — likely refers to a specific variant such as "toggle groups.")*
+Nine people are standing in a line, each wearing either a red hat or a blue hat.
+
+Everyone can see the hats in front of them but not their own.
+
+Starting from the back of the line, each person must announce either "Red" or "Blue".
+
+They may agree on a strategy beforehand.
+
+How can they maximize the number of correct guesses?
+
+---
+
+## Trick
+
+Use parity.
+
+Beforehand, agree that:
+
+```text
+Red = 1
+Blue = 0
+```
+
+The last person counts the number of red hats they see.
+
+- If the count is even, say "Blue".
+- If the count is odd, say "Red".
+
+This first answer encodes the parity of all visible red hats.
+
+Every subsequent person can use:
+
+- The hats they see.
+- Previous announcements.
+- The agreed parity rule.
+
+to determine their own hat color exactly.
+
+---
+
+## Visual
+
+```text
+Back Person:
+Sees 5 red hats → odd
+Says "Red" (encodes odd parity)
+
+Next person:
+Uses parity information +
+visible hats +
+previous answers
+→ deduces own color
+
+Continue...
+```
+
+---
 
 ## Answer
-✅ Answer: **1 press** (all off → all on with one toggle, if the button toggles all simultaneously).
+
+✅ Answer: Use parity encoding.
+
+The first person may be wrong, but their announcement communicates parity information.
+
+All remaining 8 people can determine their own hat color with certainty.
+
+---
+
+## Why It Works
+
+The first player's answer acts as a parity checksum.
+
+Every later player knows:
+
+```text
+Expected parity
+− Visible red hats
+− Previously identified hats
+```
+
+which uniquely determines their own hat color.
+
+Therefore:
+
+```text
+At most 1 person may be wrong.
+At least 8 people are guaranteed correct.
+```
+
+---
 
 ## Pattern
-"Direct toggle"
+
+```text
+Parity Encoding
+```
+
+Use one person's answer as information for everyone else.
+
+---
 
 ## Memory Anchor
-🧠 One press toggles all; all off → all on.
 
+🧠 First person sacrifices certainty to encode parity; everyone else is saved.
 ---
 
 # Puzzle #84
@@ -3397,23 +4026,72 @@ Domino tiling is possible only when black and white squares are equal. Removing 
 Shape-Based Puzzles
 
 ## Question
-Move 3 matchsticks in a given arrangement to form a new shape (fish, house, etc.).
 
-*(General matchstick puzzle — solution depends on specific arrangement.)*
+A fish is formed using matchsticks and is facing right.
+
+Move exactly **3 matchsticks** so that the fish faces left.
+
+---
+
+## Visual
+
+```text
+Fish facing →
+
+<matchstick diagram in source>
+
+Move exactly 3 matchsticks.
+```
+
+---
 
 ## Trick
-* Identify what shape is given. Determine what moves create the target shape.
-* For fish-flip: move the 3 tail matchsticks.
-* For square-to-three-triangles: move sticks to create inner triangles.
+
+Do not rebuild the entire fish.
+
+Only move the matchsticks that form the:
+
+```text
+Tail
+```
+
+from one side to the other.
+
+The body remains unchanged.
+
+---
 
 ## Answer
-✅ Answer: Varies by specific puzzle. **Always identify the minimum change to transition between shapes**; often just rotating or relocating the "tail" or "base" elements.
+
+✅ Answer: Move the 3 matchsticks forming the tail to the opposite end of the fish.
+
+The fish now faces the opposite direction.
+
+---
+
+## Why It Works
+
+The body of the fish is symmetric.
+
+Direction is determined only by the tail.
+
+Moving the tail flips the perceived direction while using the minimum number of moves.
+
+---
 
 ## Pattern
-"Minimum relocation to change shape"
+
+```text
+Matchstick Transformation
+```
+
+Move only the pieces that define orientation.
+
+---
 
 ## Memory Anchor
-🧠 Don't rebuild from scratch; move only the edge sticks that define the change.
+
+🧠 Don't rebuild the fish—move the tail.
 
 ---
 
