@@ -1492,33 +1492,140 @@ Same as well puzzle: no slip applied on escape day. 7 full days of net +1m = 7m;
 Analytical / Mathematical Puzzles
 
 ## Question
-There are 1000 light bulbs numbered 1–1000, all off. In round k, toggle every kth bulb. After 1000 rounds, which bulbs are on?
+
+There are **1000 bulbs**, numbered from **1 to 1000**, and all are initially **OFF**.
+
+- In Round 1, toggle every bulb.
+- In Round 2, toggle every 2nd bulb (2, 4, 6, 8, ...).
+- In Round 3, toggle every 3rd bulb (3, 6, 9, 12, ...).
+- Continue this process until Round 1000, where only bulb 1000 is toggled.
+
+A toggle means:
+
+```text
+OFF → ON
+ON → OFF
+```
+
+After all 1000 rounds, which bulbs remain ON?
+
+---
 
 ## Trick
-* A bulb is toggled once per divisor. Bulb n is toggled = number of divisors of n times.
-* Most numbers have even divisors → bulb ends off.
-* Only perfect squares have an odd number of divisors → those bulbs end ON.
+
+A bulb is toggled once for every divisor of its number.
+
+Examples:
+
+```text
+Bulb 6:
+Divisors = {1,2,3,6}
+Toggled 4 times → OFF
+
+Bulb 9:
+Divisors = {1,3,9}
+Toggled 3 times → ON
+```
+
+A bulb remains ON only if it is toggled an **odd number of times**.
+
+Only **perfect squares** have an odd number of divisors.
+
+---
 
 ## Visual
+
+```text
+Bulb 1:
+Divisors = {1}
+1 toggle → ON
+
+Bulb 4:
+Divisors = {1,2,4}
+3 toggles → ON
+
+Bulb 9:
+Divisors = {1,3,9}
+3 toggles → ON
+
+Bulb 16:
+Divisors = {1,2,4,8,16}
+5 toggles → ON
 ```
-Bulb 1: divisors {1} → 1 toggle → ON
-Bulb 4: divisors {1,2,4} → 3 toggles → ON
-Bulb 9: divisors {1,3,9} → 3 toggles → ON
-Bulb 36: divisors {1,2,3,4,6,9,12,18,36} → 9 → ON
-Perfect squares ≤ 1000: 1,4,9,16,...,961 → 31 bulbs
+
+Perfect squares ≤ 1000:
+
+```text
+1², 2², 3², ..., 31²
 ```
+
+because:
+
+```text
+31² = 961
+32² = 1024 > 1000
+```
+
+---
 
 ## Answer
-✅ Answer: 31 bulbs are on (perfect squares: 1², 2², ..., 31²).
+
+✅ **31 bulbs remain ON**
+
+They are:
+
+```text
+1, 4, 9, 16, 25, ..., 961
+```
+
+---
 
 ## Why It Works
-Perfect squares have an odd number of divisors because the square root pairs with itself, leaving one unpaired divisor.
+
+Most numbers have divisors in pairs:
+
+```text
+12:
+(1,12)
+(2,6)
+(3,4)
+```
+
+Total divisors = 6 (even) → bulb ends OFF.
+
+For perfect squares:
+
+```text
+36:
+(1,36)
+(2,18)
+(3,12)
+(4,9)
+(6,6)
+```
+
+The square root pairs with itself, creating one unpaired divisor.
+
+Therefore perfect squares have an odd number of divisors and remain ON.
+
+---
 
 ## Pattern
-"Perfect squares / odd number of divisors"
+
+```text
+Bulb Number → Divisor Count → Final State
+
+Even divisor count → OFF
+Odd divisor count  → ON
+
+Only perfect squares have odd divisor counts.
+```
+
+---
 
 ## Memory Anchor
-🧠 Only perfect squares stay ON — odd divisor count.
+
+🧠 **Bulb n is toggled once per divisor of n. Only perfect squares have an odd number of divisors, so only perfect squares stay ON.**
 
 ---
 
